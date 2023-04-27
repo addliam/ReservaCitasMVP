@@ -14,7 +14,7 @@ export default function Home() {
   };
   return (
     <main className={`${inter.className} mx-auto `}>
-      <section className="google-login max-w-[18em] border-white border-[1px] mx-auto">
+      <section className="google-login max-w-[18em] border-black border-[1px ] mx-auto">
         <h1 className="text-[1.4rem] text-center font-semibold my-2">
           Inicia sesion
         </h1>

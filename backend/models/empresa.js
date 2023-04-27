@@ -8,6 +8,9 @@ const Empresa = sequelize.define(
       type: DataTypes.STRING(20),
       unique: true,
     },
+    contrasenia: {
+      type: DataTypes.STRING(255),
+    },
     nombre: {
       type: DataTypes.STRING(255),
     },
@@ -21,8 +24,17 @@ const Empresa = sequelize.define(
       type: DataTypes.STRING(255),
       unique: true,
     },
-    contrasenia: {
-      type: DataTypes.STRING(255),
+    departamento: {
+      type: DataTypes.STRING(100),
+      unique: true,
+    },
+    provincia: {
+      type: DataTypes.STRING(100),
+      unique: true,
+    },
+    distrito: {
+      type: DataTypes.STRING(100),
+      unique: true,
     },
   },
   {

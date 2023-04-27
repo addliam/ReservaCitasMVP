@@ -84,7 +84,7 @@ const postPaciente = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(400).json({
+    return res.status(500).json({
       message: "Error en el registro paciente",
       detail: "postPaciente",
     });
@@ -92,44 +92,38 @@ const postPaciente = async (req, res) => {
 };
 
 const updatePacienteInfo = async (req, res) => {
-  const idPaciente = req.params.id;
-  // TODO: evaluar la posibilidad de manejar la ruta PUT / (a secas sin :id)
-  if (req.user.rol != "paciente") {
-    return res.status(401).json({
-      message: "Usuario no autorizado",
-      detail: "getPacienteInformacion",
-    });
-  }
-  // para evitar que un usuario modifique la informacion de otro
-  if (req.user.id != idPaciente) {
-    return res
-      .status(401)
-      .json({ message: "Ocurrio un error. Intenta de nuevo :)" });
-  }
-  const { dni, fechaNacimiento, direccion, telefono } = req.body;
-  if (!dni || !fechaNacimiento || !direccion || !telefono) {
-    return res.status(400).json({
-      message: "Todos los campos deben ser proporcionados",
-      detalles: "dni, fechaNacimiento, direccion, telefono",
-    });
-  }
-  // TODO: validacion de datos
-  const updatedPaciente = await Paciente.update(
-    {
-      dni: dni,
-      fechaNacimiento: fechaNacimiento,
-      direccion: direccion,
-      telefono: telefono,
-    },
-    {
-      where: {
-        id: req.user.id,
-      },
+  try {
+    const pacienteId = req.user.id;
+    const { dni, fechaNacimiento, direccion, telefono } = req.body;
+    if (!dni || !fechaNacimiento || !direccion || !telefono) {
+      return res.status(30).json({
+        message: "Todos los campos deben ser proporcionados",
+        detalles: "dni, fechaNacimiento, direccion, telefono",
+      });
     }
-  );
-  return res.status(201).json({
-    message: "Informacion del paciente actualizada correctamente",
-  });
+    // TODO: validacion de datos
+    const updatedPaciente = await Paciente.update(
+      {
+        dni: dni,
+        fechaNacimiento: fechaNacimiento,
+        direccion: direccion,
+        telefono: telefono,
+      },
+      {
+        where: {
+          id: pacienteId,
+        },
+      }
+    );
+    return res.status(201).json({
+      message: "Informacion del paciente actualizada correctamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error en el registro paciente",
+      detail: "updatePacienteInfo",
+    });
+  }
 };
 
 module.exports = {

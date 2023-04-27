@@ -7,6 +7,9 @@ const checkGoogleAuthToken = async (req, res, next) => {
     const GOOGLE_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
     const client = new OAuth2Client(GOOGLE_ID);
     const { token } = req.body;
+    if (!token) {
+      token = "";
+    }
     // verify & decode token
     const ticket = await client.verifyIdToken({
       idToken: token,
