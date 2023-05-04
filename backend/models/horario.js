@@ -22,5 +22,12 @@ const Horario = sequelize.define(
   }
 );
 
-Horario.belongsTo(MedicoEspecialidad, { foreignKey: "medicoEspecialidadId" });
+Horario.belongsTo(MedicoEspecialidad, {
+  as: "medicoEspecialidad",
+  foreignKey: "medicoEspecialidadId",
+});
+MedicoEspecialidad.hasMany(Horario, {
+  as: "horario",
+  foreignKey: "medicoEspecialidadId",
+});
 module.exports = Horario;

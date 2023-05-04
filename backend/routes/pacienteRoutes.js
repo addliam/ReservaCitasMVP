@@ -13,5 +13,10 @@ router.post(
   pacienteController.postPaciente
 );
 router.get("/perfil", authJwt, pacienteController.getPacienteInformacion);
-router.put("/", authJwt, checkPaciente, pacienteController.updatePacienteInfo);
+router.put(
+  "/perfil",
+  authJwt,
+  checkPaciente,
+  pacienteController.updatePacienteInfo
+);
 module.exports = router;

@@ -26,7 +26,18 @@ const getPacienteInformacion = async (req, res) => {
         detail: "getPacienteInformacion",
       });
     }
-    const infoPaciente = await Paciente.findByPk(id);
+    const infoPaciente = await Paciente.findByPk(id, {
+      include: {
+        model: RegistroPaciente,
+        attributes: ["email"],
+      },
+    });
+    if (!infoPaciente) {
+      return res.status(403).json({
+        message: "El id proporcionado en el token no se encontro",
+        detail: "Reportalo con los administradores",
+      });
+    }
     return res.status(200).json(infoPaciente);
   } catch (error) {
     console.error(error);
@@ -92,13 +103,14 @@ const postPaciente = async (req, res) => {
 };
 
 const updatePacienteInfo = async (req, res) => {
+  // TODO: actualizar nombre y apellido
   try {
     const pacienteId = req.user.id;
     const { dni, fechaNacimiento, direccion, telefono } = req.body;
     if (!dni || !fechaNacimiento || !direccion || !telefono) {
-      return res.status(30).json({
+      return res.status(400).json({
         message: "Todos los campos deben ser proporcionados",
-        detalles: "dni, fechaNacimiento, direccion, telefono",
+        detail: "dni, fechaNacimiento, direccion, telefono",
       });
     }
     // TODO: validacion de datos

@@ -19,15 +19,15 @@ const Medico = sequelize.define(
     },
     contrasenia: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    estado: {
+    aprobacion: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      defaultValue: false,
     },
     disponible: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      defaultValue: false,
     },
   },
   {
@@ -36,7 +36,6 @@ const Medico = sequelize.define(
     primaryKey: "id",
   }
 );
-
-Medico.belongsTo(Empresa, { foreignKey: "empresaId" });
-
+Empresa.hasMany(Medico, { as: "medico", foreignKey: "empresaId" });
+Medico.belongsTo(Empresa, { as: "empresa", foreignKey: "empresaId" });
 module.exports = Medico;

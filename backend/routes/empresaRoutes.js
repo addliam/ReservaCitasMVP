@@ -12,6 +12,20 @@ router.post(
   checkGoogleAuthToken,
   empresaController.postEmpresa
 );
+// ?especialidad=1&provincia=Lima&departamento=Lima
+router.get("/filtrar/", empresaController.getEmpresasConFiltro);
+router.get(
+  "/medico/pendiente",
+  authJwtMiddleware,
+  checkEmpresa,
+  empresaController.getMedicoListaPendientes
+);
+router.post(
+  "/medico/aprobar/:id",
+  authJwtMiddleware,
+  checkEmpresa,
+  empresaController.aprobarMedico
+);
 router.put(
   "/",
   authJwtMiddleware,

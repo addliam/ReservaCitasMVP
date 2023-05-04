@@ -24,5 +24,6 @@ const RegistroPaciente = sequelize.define(
   }
 );
 RegistroPaciente.belongsTo(Paciente, { foreignKey: "pacienteId" });
+Paciente.hasOne(RegistroPaciente, { foreignKey: "pacienteId" });
 
 module.exports = RegistroPaciente;

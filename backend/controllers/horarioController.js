@@ -1,4 +1,5 @@
 const Horario = require("../models/horario");
+const MedicoEspecialidad = require("../models/medicoEspecialidad");
 
 const getTodosHorarios = async (req, res) => {
   try {

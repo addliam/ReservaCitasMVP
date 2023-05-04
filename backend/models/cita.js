@@ -3,6 +3,15 @@ const Especialidad = require("./especialidad");
 const Medico = require("./medico");
 const Paciente = require("./paciente");
 
+const CitaEstado = DataTypes.ENUM(
+  "pendiente",
+  "confirmada",
+  "cancelada",
+  "atendida",
+  "ausente",
+  "reagendada"
+);
+
 // Definimos el modelo de la tabla
 const Cita = sequelize.define(
   "cita",
@@ -14,7 +23,8 @@ const Cita = sequelize.define(
       type: DataTypes.TIME,
     },
     estado: {
-      type: DataTypes.BOOLEAN,
+      type: CitaEstado,
+      defaultValue: "pendiente",
     },
   },
   {
@@ -25,8 +35,17 @@ const Cita = sequelize.define(
   }
 );
 
-Cita.belongsTo(Medico, { foreignKey: "medicoId" });
-Cita.belongsTo(Paciente, { foreignKey: "pacienteId" });
-Cita.belongsTo(Especialidad, { foreignKey: "especialidadId" });
+Cita.belongsTo(Medico, { as: "medico", foreignKey: "medicoId" });
+Medico.hasMany(Cita, { as: "cita", foreignKey: "medicoId" });
+Cita.belongsTo(Paciente, { as: "paciente", foreignKey: "pacienteId" });
+Paciente.hasMany(Cita, { as: "cita", foreignKey: "pacienteId" });
+Cita.belongsTo(Especialidad, {
+  as: "especialidad",
+  foreignKey: "especialidadId",
+});
+Especialidad.hasMany(Cita, {
+  as: "cita",
+  foreignKey: "especialidadId",
+});
 
 module.exports = Cita;

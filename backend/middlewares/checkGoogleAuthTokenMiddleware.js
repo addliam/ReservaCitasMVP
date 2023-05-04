@@ -8,7 +8,10 @@ const checkGoogleAuthToken = async (req, res, next) => {
     const client = new OAuth2Client(GOOGLE_ID);
     const { token } = req.body;
     if (!token) {
-      token = "";
+      return res.status(401).json({
+        message: "No se proporciono un token",
+        detail: "checkGoogleAuthToken",
+      });
     }
     // verify & decode token
     const ticket = await client.verifyIdToken({
