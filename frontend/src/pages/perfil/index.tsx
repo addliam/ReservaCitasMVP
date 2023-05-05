@@ -10,10 +10,14 @@ import PerfilPaciente from "@/components/perfil/PerfilPaciente";
 import PerfilEmpresa from "@/components/perfil/PerfilEmpresa";
 import NavBar from "@/components/NavBar";
 // interfaces
-import { Paciente } from "../utils/interfaces/Paciente";
+import { Paciente } from "../../utils/interfaces/Paciente";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// react-redux
+// import { useSelector, useDispatch } from "react-redux";
+// import { RootState } from "@/store";
+// import { update } from "@/store/reducers/jwtDecodedSlice";
 
 interface PerfilProps {
   decodedToken: DecodedTokenProps;
@@ -25,13 +29,18 @@ interface DecodedTokenProps {
 
 const Perfil = ({ decodedToken }: PerfilProps) => {
   console.log("[-] Render perfil");
-
+  // const jwtDecodedValue = useSelector((state: RootState) => state.jwtDecoded);
+  // console.log({ jwtDecodedValue });
+  // const dispatch = useDispatch();
+  // // update jwtDecoded global state value
+  // if (decodedToken.rol !== "") {
+  //   dispatch(update({ id: "9999", rol: "admin" }));
+  // }
   const jwtToken = new Cookies().get("jwt");
   const [pacienteInfo, setPacienteInfo] = useState<Paciente | null>(null);
-  const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || "";
   useEffect(() => {
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || "";
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -49,7 +58,7 @@ const Perfil = ({ decodedToken }: PerfilProps) => {
       }
     }
     return () => {};
-  }, [decodedToken, API_URL]);
+  }, [decodedToken]);
 
   useEffect(() => {
     console.log("Running useEffect");
@@ -97,6 +106,7 @@ export const getServerSideProps = ({
 }: GetServerSidePropsContext<ParsedUrlQuery>) => {
   const cookies = new Cookies(req.headers.cookie);
   const jwtToken = cookies.get("jwt");
+  // aca inicializar el valor de jwtDecoded de redux-store
   var decodedToken = {
     id: "",
     rol: "",

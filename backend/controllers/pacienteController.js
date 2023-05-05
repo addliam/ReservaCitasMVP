@@ -106,7 +106,8 @@ const updatePacienteInfo = async (req, res) => {
   // TODO: actualizar nombre y apellido
   try {
     const pacienteId = req.user.id;
-    const { dni, fechaNacimiento, direccion, telefono } = req.body;
+    const { nombre, apellidos, dni, fechaNacimiento, direccion, telefono } =
+      req.body;
     if (!dni || !fechaNacimiento || !direccion || !telefono) {
       return res.status(400).json({
         message: "Todos los campos deben ser proporcionados",
@@ -116,6 +117,8 @@ const updatePacienteInfo = async (req, res) => {
     // TODO: validacion de datos
     const updatedPaciente = await Paciente.update(
       {
+        nombre: nombre,
+        apellidos: apellidos,
         dni: dni,
         fechaNacimiento: fechaNacimiento,
         direccion: direccion,

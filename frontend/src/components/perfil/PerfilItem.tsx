@@ -12,8 +12,8 @@ const PerfilItem = ({ item, valor, imagenSrc, imagenAlt }: PerfilItemProps) => {
       <div className="w-[42px] h-[42px]">
         <Image
           src={imagenSrc}
-          width={0}
-          height={0}
+          width={"0"}
+          height={"0"}
           alt={imagenAlt ? imagenAlt : "profile item information"}
           className="w-[38px] h-[38px]"
         ></Image>

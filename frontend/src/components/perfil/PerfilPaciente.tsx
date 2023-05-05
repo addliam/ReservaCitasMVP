@@ -4,9 +4,13 @@ import PerfilItem from "./PerfilItem";
 import Image from "next/image";
 import { Paciente } from "@/utils/interfaces/Paciente";
 import LogoutButton from "../LogoutButton";
-
+import { useRouter } from "next/router";
 const PerfilPaciente = ({ data }: { data: Paciente }) => {
   console.log("[*] Render PerfilPaciente");
+  const router = useRouter();
+  const editarPerfilHandler = () => {
+    router.push("/perfil/editar");
+  };
   // const [showPopup, setShowPopup] = useState<Boolean>(false);
   return (
     <div className="px-[1.5rem]">
@@ -24,7 +28,10 @@ const PerfilPaciente = ({ data }: { data: Paciente }) => {
           <p className="text-[1rem] text-[#636363]">
             {data.registroPaciente.email}
           </p>
-          <button className="mt-[.875rem] px-[2.8125rem] rounded-[4px] text-white bg-blue-midnight py-[.625rem]">
+          <button
+            onClick={() => editarPerfilHandler()}
+            className="mt-[.875rem] px-[2.8125rem] rounded-[4px] text-white bg-blue-midnight py-[.625rem]"
+          >
             Editar perfil
           </button>
         </div>
