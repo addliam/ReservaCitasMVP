@@ -6,6 +6,19 @@ const checkGoogleAuthTokenMiddleware = require("../middlewares/checkGoogleAuthTo
 const authJwtMiddleware = require("../middlewares/authJwtMiddleware");
 
 router.get("/", medicoController.getTodosMedicos);
+router.put(
+  "/perfil",
+  authJwtMiddleware,
+  checkMedico,
+  medicoController.updateMedicoInfo
+);
+// informacion del perfil
+router.get(
+  "/perfil",
+  authJwtMiddleware,
+  checkMedico,
+  medicoController.getMedicoPerfil
+);
 router.post(
   "/google-auth",
   checkGoogleAuthTokenMiddleware,

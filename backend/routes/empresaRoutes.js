@@ -7,6 +7,7 @@ const authJwtMiddleware = require("../middlewares/authJwtMiddleware");
 const checkEmpresa = require("../middlewares/empresa/checkEmpresa");
 
 router.get("/", authJwtMiddleware, empresaController.getEmpresaInfo);
+router.get("/lista", authJwtMiddleware, empresaController.getTodasEmpresas);
 router.post(
   "/google-auth",
   checkGoogleAuthToken,

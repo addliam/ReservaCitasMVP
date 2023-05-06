@@ -10,6 +10,7 @@ const moment = require("moment");
 const divideIntervalo = require("../utils/divideIntervalo");
 const { Op } = require("sequelize");
 const Paciente = require("../models/paciente");
+const Empresa = require("../models/empresa");
 
 const getTodosMedicos = async (req, res) => {
   try {
@@ -20,6 +21,61 @@ const getTodosMedicos = async (req, res) => {
     return res.status(500).json({
       message: "Error en el servidor",
       detail: "getTodosMedicos",
+    });
+  }
+};
+
+const updateMedicoInfo = async (req, res) => {
+  try {
+    // no se puede actualizar la empresa libremente, todo: una lista de empresas que aprobaron como trabajador y poder retirarse de una empresa
+    const { nombre, apellidos } = req.body;
+    const updatedMedico = Medico.update(
+      {
+        nombre,
+        apellidos,
+      },
+      {
+        where: {
+          id: req.user.id,
+        },
+      }
+    );
+    return res
+      .status(201)
+      .json({ message: "Informacion del medico actualizada correctamente" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getTodosMedicos",
+    });
+  }
+};
+
+const getMedicoPerfil = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const medicoPerfil = await Medico.findByPk(id, {
+      include: {
+        model: Empresa,
+        as: "empresa",
+        attributes: ["nombre"],
+      },
+      attributes: [
+        "id",
+        "nombre",
+        "apellidos",
+        "email",
+        "aprobacion",
+        "createdAt",
+      ],
+    });
+    return res.status(200).json(medicoPerfil);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getTodosPacientes",
     });
   }
 };
@@ -393,7 +449,7 @@ const getHorarioDisponibleConFiltro = async (req, res) => {
       },
     });
     return res.status(200).json(horarios);
-    if (medico && especialidad) {
+    ``` if (medico && especialidad) {
       const horarios = await Horario.findAll({
         where: {
           "$medicoEspecialidad.medicoId$": medico,
@@ -433,7 +489,7 @@ const getHorarioDisponibleConFiltro = async (req, res) => {
     }
     // si nada cumple esq no paso query asi que devolvemos todo
     const todosHorarios = await Horario.findAll({});
-    return res.status(200).json(todosHorarios);
+    return res.status(200).json(todosHorarios); ```;
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -444,7 +500,9 @@ const getHorarioDisponibleConFiltro = async (req, res) => {
 };
 
 module.exports = {
+  getMedicoPerfil,
   getTodosMedicos,
+  updateMedicoInfo,
   postMedico,
   solicitarAprobacionEmpresa,
   postEspecialidad,

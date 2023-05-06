@@ -14,6 +14,8 @@ import { Paciente } from "../../utils/interfaces/Paciente";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PerfilMedico from "@/components/perfil/PerfilMedico";
+import { Medico } from "@/utils/interfaces/Medico";
 // react-redux
 // import { useSelector, useDispatch } from "react-redux";
 // import { RootState } from "@/store";
@@ -29,15 +31,9 @@ interface DecodedTokenProps {
 
 const Perfil = ({ decodedToken }: PerfilProps) => {
   console.log("[-] Render perfil");
-  // const jwtDecodedValue = useSelector((state: RootState) => state.jwtDecoded);
-  // console.log({ jwtDecodedValue });
-  // const dispatch = useDispatch();
-  // // update jwtDecoded global state value
-  // if (decodedToken.rol !== "") {
-  //   dispatch(update({ id: "9999", rol: "admin" }));
-  // }
   const jwtToken = new Cookies().get("jwt");
   const [pacienteInfo, setPacienteInfo] = useState<Paciente | null>(null);
+  const [medicoInfo, setMedicoInfo] = useState<Medico | null>(null);
   const router = useRouter();
   useEffect(() => {
     const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || "";
@@ -53,6 +49,16 @@ const Perfil = ({ decodedToken }: PerfilProps) => {
           .then((res) => {
             const paciente: Paciente = res.data;
             setPacienteInfo(paciente);
+          })
+          .catch((err) => console.error(err));
+      }
+      // si es medico
+      if (decodedToken.rol === "medico") {
+        axios
+          .get(`${API_URL}/medico/perfil`, config)
+          .then((res) => {
+            const medico: Medico = res.data;
+            setMedicoInfo(medico);
           })
           .catch((err) => console.error(err));
       }
@@ -85,8 +91,10 @@ const Perfil = ({ decodedToken }: PerfilProps) => {
       {decodedToken.rol === "paciente" && pacienteInfo && (
         <PerfilPaciente data={pacienteInfo} />
       )}
+      {decodedToken.rol === "medico" && medicoInfo && (
+        <PerfilMedico data={medicoInfo} />
+      )}
       {decodedToken.rol === "empresa" ? <PerfilEmpresa /> : <></>}
-      {decodedToken.rol === "medico" ? <PerfilEmpresa /> : <></>}
 
       {decodedToken.id !== "" ? (
         <>

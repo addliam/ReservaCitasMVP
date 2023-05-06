@@ -8,7 +8,11 @@ const { Op } = require("sequelize");
 
 const getTodasEmpresas = async (req, res) => {
   try {
-    const empresas = await Empresa.findAll();
+    const empresas = await Empresa.findAll({
+      attributes: ["id", "nombre"],
+      order: [["nombre", "asc"]],
+    });
+    // solo id y nombre
     return res.status(200).json(empresas);
   } catch (error) {
     console.error(error);

@@ -21,7 +21,6 @@ export function useRole(): string {
     } else {
       const decoded: decodedProps = jwtDecode(jwtToken);
       setRol(decoded.rol);
-      console.log(`Rol: ${rol}`);
     }
   }, [rol]);
 

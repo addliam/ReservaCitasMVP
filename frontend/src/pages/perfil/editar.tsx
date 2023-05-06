@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import jwtDecode from "jwt-decode";
 import useRole from "@/hooks/useRole";
 import EditarPaciente from "@/components/editar/EditarPaciente";
+import EditarMedico from "@/components/editar/EditarMedico";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,7 +16,7 @@ const editar = () => {
       <ToastContainer />
       <NavBar />
       {rol === "paciente" && <EditarPaciente toastObj={toast} />}
-      {rol === "medico" && <p>Trabajando en pantalla MEDICO</p>}
+      {rol === "medico" && <EditarMedico toastObj={toast} />}
       {rol === "empresa" && <p>Trabajando en pantalla EMPRESA</p>}
     </div>
   );

@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import CustomInputEdit from "./CustomInputEdit";
 import axios, { AxiosRequestConfig } from "axios";
 import useJwtToken from "@/hooks/useJwtToken";
-import { Paciente } from "@/utils/interfaces/Paciente";
 
 import { ToastContent, ToastOptions } from "react-toastify";
+import { Medico } from "@/utils/interfaces/Medico";
 
-interface EditarPacienteProps {
+interface EditarMedicoProps {
   toastObj: {
     success: (
       content: ToastContent,
@@ -19,13 +19,10 @@ interface EditarPacienteProps {
     warn: (content: ToastContent, options?: ToastOptions | undefined) => void;
   };
 }
-const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
-  const [pacienteInfo, setPacienteInfo] = useState<Partial<Paciente>>({});
-
+const EditarMedico = ({ toastObj }: EditarMedicoProps) => {
+  const [medicoInfo, setMedicoInfo] = useState<Partial<Medico>>({});
   const jwtToken = useJwtToken();
   useEffect(() => {
-    const API_URL =
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/paciente/perfil` || "";
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -34,48 +31,41 @@ const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
     if (jwtToken) {
       // obtener informacion
       axios
-        .get(API_URL, config)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/medico/perfil`, config)
         .then((res) => {
-          setPacienteInfo(res.data);
+          const medico: Medico = res.data;
+          setMedicoInfo(medico);
         })
         .catch((err) => console.error(err));
+      // el medico no puede modificar libremente la empresa
     }
     return () => {};
   }, [jwtToken]);
 
   const onChangeInputHandler = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, nombre: newValue }));
+    setMedicoInfo((prev) => ({ ...prev, nombre: newValue }));
   };
   const onChangeApellidos = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, apellidos: newValue }));
+    setMedicoInfo((prev) => ({ ...prev, apellidos: newValue }));
   };
-  const onChangeDni = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, dni: newValue }));
-  };
-  const onChangeDireccion = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, direccion: newValue }));
-  };
-  const onChangeCelular = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, telefono: newValue }));
-  };
-  const onChangeDate = (newValue: string) => {
-    setPacienteInfo((prev) => ({ ...prev, fechaNacimiento: newValue }));
-  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
   const actualizarInfoHandler = () => {
     console.log("Actualizar informacion. make POST req");
-    const API_URL =
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/paciente/perfil` || "";
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
     };
     axios
-      .put(API_URL, pacienteInfo, config)
+      .put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/medico/perfil`,
+        medicoInfo,
+        config
+      )
       .then((res) => {
         if (res.status == 201) {
           toastObj.success("Informacion actualizada correctamente!", {
@@ -88,7 +78,7 @@ const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
       })
       .catch((err) => console.error(err));
 
-    console.log(pacienteInfo);
+    console.log(medicoInfo);
   };
 
   return (
@@ -108,7 +98,7 @@ const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
             NOMBRE:
           </label>
           <CustomInputEdit
-            valor={pacienteInfo?.nombre || ""}
+            valor={medicoInfo.nombre || ""}
             handleChange={onChangeInputHandler}
           />
         </div>
@@ -117,47 +107,8 @@ const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
             APELLIDOS:
           </label>
           <CustomInputEdit
-            valor={pacienteInfo?.apellidos || ""}
+            valor={medicoInfo.apellidos || ""}
             handleChange={onChangeApellidos}
-          />
-        </div>
-        <div>
-          <label className="font-semibold text-jet-black" htmlFor="nombre">
-            DNI:
-          </label>
-          <CustomInputEdit
-            valor={pacienteInfo?.dni || ""}
-            type="number"
-            handleChange={onChangeDni}
-          />
-        </div>
-        <div>
-          <label className="font-semibold text-jet-black" htmlFor="nombre">
-            DIRECCION:
-          </label>
-          <CustomInputEdit
-            valor={pacienteInfo?.direccion || ""}
-            handleChange={onChangeDireccion}
-          />
-        </div>
-        <div>
-          <label className="font-semibold text-jet-black" htmlFor="nombre">
-            CELULAR:
-          </label>
-          <CustomInputEdit
-            valor={pacienteInfo?.telefono || ""}
-            type="tel"
-            handleChange={onChangeCelular}
-          />
-        </div>
-        <div>
-          <label className="font-semibold text-jet-black" htmlFor="nombre">
-            FECHA DE NACIMIENTO:
-          </label>
-          <CustomInputEdit
-            valor={pacienteInfo?.fechaNacimiento || ""}
-            type="date"
-            handleChange={onChangeDate}
           />
         </div>
         <div className="button-section mt-[24px]">
@@ -174,4 +125,4 @@ const EditarPaciente = ({ toastObj }: EditarPacienteProps) => {
   );
 };
 
-export default EditarPaciente;
+export default EditarMedico;
