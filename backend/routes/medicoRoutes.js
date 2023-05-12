@@ -57,8 +57,7 @@ router.post(
   checkMedico,
   medicoController.solicitarAprobacionEmpresa
 );
-// TODO en swagger
-// GET /medicos/:id/horarios?fecha=:fecha&especialidad=:especialidad_id
-router.get("/:id/horarios", medicoController.getHorarioDisponibleConFiltro);
+// GET /medico/:id/horarios?fecha=:fecha&especialidad=:especialidad_id
+// router.get("/:id/horarios", medicoController.getHorarioDisponibleConFiltro);
 
 module.exports = router;

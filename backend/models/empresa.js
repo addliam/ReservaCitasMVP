@@ -4,6 +4,11 @@ const { DataTypes, sequelize } = require("../dbConfig");
 const Empresa = sequelize.define(
   "empresa",
   {
+    // slug es el link de acceso a la informacion /clinica-ricardo-palma
+    slug: {
+      type: DataTypes.STRING(255),
+      unique: true,
+    },
     ruc: {
       type: DataTypes.STRING(20),
       unique: true,

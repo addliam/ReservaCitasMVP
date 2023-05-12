@@ -6,6 +6,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import useJwtToken from "@/hooks/useJwtToken";
 
 import { ToastContent, ToastOptions } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Medico } from "@/utils/interfaces/Medico";
 
 interface EditarMedicoProps {

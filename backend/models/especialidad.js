@@ -8,6 +8,8 @@ const Especialidad = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      charset: "utf8",
+      collate: "utf8_general_ci",
     },
   },
   {

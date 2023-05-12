@@ -5,11 +5,152 @@ const Medico = require("../models/medico");
 const MedicoEspecialidad = require("../models/medicoEspecialidad");
 const Especialidad = require("../models/especialidad");
 const { Op } = require("sequelize");
+const slugify = require("slugify");
+
+const getAllEspecialidadesEmpresaPorId = async (req, res) => {
+  try {
+    const empresaId = req.params.id;
+    const result = await Especialidad.findAll({
+      disctinct: true,
+      attributes: ["id", "nombre"],
+      order: [["nombre", "ASC"]],
+      where: {
+        "$medicoEspecialidad.medico.empresaId$": empresaId,
+      },
+      include: [
+        {
+          model: MedicoEspecialidad,
+          as: "medicoEspecialidad",
+          attributes: [],
+          include: {
+            model: Medico,
+            as: "medico",
+            attributes: [],
+          },
+        },
+      ],
+    });
+    // const result = await MedicoEspecialidad.findAll({
+    //   attributes: ["id"],
+    //   where: { "$medico.empresaId$": empresaId },
+    //   include: [
+    //     {
+    //       model: Medico,
+    //       as: "medico",
+    //       attributes: [],
+    //     },
+    //     {
+    //       model: Especialidad,
+    //       as: "especialidad",
+    //       attributes: ["id", "nombre"],
+    //     },
+    //   ],
+    // });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getAllEspecialidadesEmpresaPorId",
+    });
+  }
+};
+
+const getEmpresaEspecialidadesPorFiltro = async (req, res) => {
+  // /:id/medicos/especialidad?id=12
+  const empresaId = req.params.id;
+  const especialidadId = req.query.id;
+  // TODO: mandar solo datos de medicos q tengan horario xq habra conflicto en el frontend
+  // TODO: mandar solo datos de medico verificado
+  try {
+    if (!especialidadId) {
+      const result = await MedicoEspecialidad.findAll({
+        attributes: ["id", "precio"],
+        where: { "$medico.empresaId$": empresaId },
+        include: [
+          {
+            model: Medico,
+            as: "medico",
+            attributes: ["id", "nombre", "apellidos", "empresaId"],
+          },
+          {
+            model: Especialidad,
+            as: "especialidad",
+            attributes: ["id", "nombre"],
+          },
+        ],
+      });
+      return res.status(200).json(result);
+      // si hay ?id= quiere decir q pasaron la especialidadId
+    } else {
+      const result = await MedicoEspecialidad.findAll({
+        attributes: ["id", "precio"],
+        where: {
+          "$medico.empresaId$": empresaId,
+          "$especialidad.id$": especialidadId,
+        },
+        include: [
+          {
+            model: Medico,
+            as: "medico",
+            attributes: ["id", "nombre", "apellidos", "empresaId"],
+          },
+          {
+            model: Especialidad,
+            as: "especialidad",
+            attributes: ["id", "nombre"],
+          },
+        ],
+      });
+      return res.status(200).json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getEmpresaEspecialidadesPorId",
+    });
+  }
+};
+const getEmpresaInfoPorSlug = async (req, res) => {
+  try {
+    const slug = req.params.name;
+    const empresaInfo = await Empresa.findOne({
+      attributes: [
+        "id",
+        "nombre",
+        "direccion",
+        "telefono",
+        "email",
+        "departamento",
+        "provincia",
+        "distrito",
+        "slug",
+      ],
+      where: {
+        slug: slug,
+      },
+    });
+    if (empresaInfo) {
+      return res.status(200).json(empresaInfo);
+    } else {
+      return res
+        .status(400)
+        .json({ message: "No se encontro el slug proporcionado" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getTodasEmpresas",
+    });
+  }
+};
 
 const getTodasEmpresas = async (req, res) => {
   try {
     const empresas = await Empresa.findAll({
-      attributes: ["id", "nombre"],
+      attributes: ["id", "nombre", "direccion", "slug"],
       order: [["nombre", "asc"]],
     });
     // solo id y nombre
@@ -126,9 +267,12 @@ const postEmpresa = async (req, res) => {
     if (!email.endsWith("gmail.com") || !email.endsWith("yahoo.com")) {
       DOMINIO_EMPRESA = true;
     }
+    // TODO: si otra empresa tiene nombre similar puede haber conflicto y necesitaria agregar numeros aleatorios
+    const generatedSlug = slugify(given_name, { lower: true });
     const nuevaEmpresa = Empresa.create({
       email: email,
       nombre: given_name,
+      slug: generatedSlug,
     });
     const payload = {
       rol: "empresa",
@@ -177,6 +321,10 @@ const updateEmpresaInfo = async (req, res) => {
         detail: "direccion, telefono, departamento, provincia, distrito",
       });
     }
+    // si se actualiza el nombre actualizamos tambien el slug
+    if (nombre) {
+      const generatedSlug = slugify(nombre, { lower: true });
+    }
     const updatedEmpresa = Empresa.update(
       {
         nombre: nombre || Empresa.nombre,
@@ -187,6 +335,7 @@ const updateEmpresaInfo = async (req, res) => {
         departamento: departamento || Empresa.departamento,
         provincia: provincia || Empresa.provincia,
         distrito: distrito || Empresa.distrito,
+        slug: generatedSlug,
       },
       {
         where: {
@@ -364,4 +513,7 @@ module.exports = {
   getMedicoListaPendientes,
   aprobarMedico,
   getEmpresasConFiltro,
+  getEmpresaInfoPorSlug,
+  getEmpresaEspecialidadesPorFiltro,
+  getAllEspecialidadesEmpresaPorId,
 };

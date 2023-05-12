@@ -7,7 +7,8 @@ import useRole from "@/hooks/useRole";
 import EditarPaciente from "@/components/editar/EditarPaciente";
 import EditarMedico from "@/components/editar/EditarMedico";
 
-import "react-toastify/dist/ReactToastify.css";
+// estilos estan importados en app principal
+// import "react-toastify/dist/ReactToastify.css";
 
 const editar = () => {
   const rol = useRole();

@@ -2,13 +2,7 @@ import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
-
-interface decodedProps {
-  rol: string;
-  id: Number;
-  iat: Number;
-  exp: Number;
-}
+import { DecodedToken } from "@/utils/interfaces/DecodedToken";
 
 export function useRole(): string {
   const [rol, setRol] = useState("");
@@ -19,7 +13,7 @@ export function useRole(): string {
     if (!jwtToken) {
       router.push("/login");
     } else {
-      const decoded: decodedProps = jwtDecode(jwtToken);
+      const decoded: DecodedToken = jwtDecode(jwtToken);
       setRol(decoded.rol);
     }
   }, [rol]);

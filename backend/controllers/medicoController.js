@@ -120,10 +120,11 @@ const solicitarAprobacionEmpresa = async (req, res) => {
 const getMedicoEspecialidades = async (req, res) => {
   try {
     const medicoEspecialidades = await MedicoEspecialidad.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         medicoId: req.user.id,
       },
-      attributes: ["id", "precio", "medicoId"],
+      attributes: ["id", "precio", "createdAt"],
       include: {
         model: Especialidad,
         as: "especialidad",
@@ -142,7 +143,8 @@ const getMedicoEspecialidades = async (req, res) => {
 
 const getCitaConFiltro = async (req, res) => {
   try {
-    const { estado } = req.query;
+    const rawEstado = req.query.estado;
+    const estado = rawEstado.toLowerCase();
     if (!estado) {
       const todasMisCitas = await Cita.findAll({
         where: {
@@ -182,6 +184,7 @@ const getCitaConFiltro = async (req, res) => {
 };
 
 const postEspecialidad = async (req, res) => {
+  // TODO: validar que la especialidad no se encuentra ya registrada con este medico
   try {
     const { id, precio } = req.body;
     const faltantes = validarCamposRequeridos(req.body, ["id", "precio"]);

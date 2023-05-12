@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useRole from "@/hooks/useRole";
-import Link from "next/link";
 import NavBarMenu from "./NavBarMenu";
 
 const NavBar = () => {
-  const [showMenu, setShowMenu] = useState<Boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const rol = useRole();
   const togglerHandler = () => {
     setShowMenu((prev) => !prev);
@@ -25,7 +24,8 @@ const NavBar = () => {
           className="w-[2.125rem] h-[2.125rem]"
         />
       </div>
-      {showMenu ? <NavBarMenu role={rol} /> : <></>}
+
+      {<NavBarMenu showMenu={showMenu} role={rol} toggler={togglerHandler} />}
     </nav>
   );
 };

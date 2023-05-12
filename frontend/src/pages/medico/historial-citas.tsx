@@ -1,8 +1,12 @@
 import NavBar from "@/components/NavBar";
+import HistorialCitaMedico from "@/components/historial-citas/HistorialCitaMedico";
+import useRole from "@/hooks/useRole";
 import { poppins } from "@/utils/fonts/poppins";
 import React from "react";
 
 const historialCitas = () => {
+  // Posiblemente mas adelante haya historial citas para el paciente pero para el MVP solo Medico
+  const rol = useRole();
   return (
     <div>
       <NavBar />
@@ -11,6 +15,7 @@ const historialCitas = () => {
       >
         Historial de citas
       </h1>
+      {rol === "medico" && <HistorialCitaMedico />}
     </div>
   );
 };
