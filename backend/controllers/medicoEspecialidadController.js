@@ -3,6 +3,8 @@ const { sequelize } = require("../dbConfig");
 const MedicoEspecialidad = require("../models/medicoEspecialidad");
 const Consultorio = require("../models/consultorio");
 const Especialidad = require("../models/especialidad");
+const Medico = require("../models/medico");
+const Empresa = require("../models/empresa");
 
 const getTodosMedicoEspecialidad = async (req, res) => {
   try {
@@ -49,7 +51,41 @@ const getTodosPretty = async (req, res) => {
   }
 };
 
+const getMedicoEspecialidadInfoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await MedicoEspecialidad.findByPk(id, {
+      attributes: ["id", "precio"],
+      include: [
+        {
+          model: Medico,
+          as: "medico",
+          attributes: ["id", "nombre", "apellidos"],
+          include: {
+            model: Empresa,
+            as: "empresa",
+            attributes: ["id", "nombre"],
+          },
+        },
+        {
+          model: Especialidad,
+          as: "especialidad",
+          attributes: ["id", "nombre"],
+        },
+      ],
+    });
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getMedicoEspecialidadInfoById",
+    });
+  }
+};
+
 module.exports = {
   getTodosMedicoEspecialidad,
   getTodosPretty,
+  getMedicoEspecialidadInfoById,
 };

@@ -9,7 +9,6 @@ const MedicoHorarioItem = ({ medicoEspecialidad }: MedicoHorarioItemProps) => {
   const router = useRouter();
   const nombreCompletoMedico = `${medicoEspecialidad.medico.nombre} ${medicoEspecialidad.medico.apellidos}`;
   const clickVerHorario = () => {
-    console.log("En mi ejemplo solo hay horario de Pediatria 10");
     console.log(
       `Medico: ${medicoEspecialidad.medico.id} - MedicoEspecialidad: ${medicoEspecialidad.id}`
     );

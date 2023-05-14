@@ -5,6 +5,7 @@ import { roboto } from "../utils/fonts/roboto";
 import { store } from "@/store";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+import "../styles/globals.css";
 
 // console.log("NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID");
 // console.log(process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID);

@@ -16,7 +16,7 @@ export function useRole(): string {
       const decoded: DecodedToken = jwtDecode(jwtToken);
       setRol(decoded.rol);
     }
-  }, [rol]);
+  }, [rol, router]);
 
   return rol;
 }

@@ -13,4 +13,6 @@ router.post(
   checkPaciente,
   citaController.postCitaNueva
 );
+// TODO: URGENTE
+// funcion que tome paraemtro medicoEspecialidad y numero de mes. ejemplo mayo 5, debe retornar un listado de las fechas y horas de las citas que ya estan OCUPADAS para que el frontend las renderice como rojo.
 module.exports = router;

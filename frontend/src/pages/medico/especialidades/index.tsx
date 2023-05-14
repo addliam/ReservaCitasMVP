@@ -15,7 +15,7 @@ import { DecodedToken } from "@/utils/interfaces/DecodedToken";
 import { Especialidad } from "@/utils/interfaces/Especialidad";
 import EditPrecioPopup from "@/components/medico/especialidad/EditPrecioPopup";
 
-const especialidades = () => {
+const Especialidades = () => {
   const [trigger, setTrigger] = useState<boolean>(false);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [showEditablePopUp, setShowEditablePopUp] = useState<boolean>(false);
@@ -130,17 +130,17 @@ export const getServerSideProps = ({
   const cookies = new Cookies(req.headers.cookie);
   const jwtDecoded: DecodedToken = jwtDecode(cookies.get("jwt"));
 
-  if (jwtDecoded.rol != "medico") {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  // if (jwtDecoded.rol != "medico") {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: {},
   };
 };
 
-export default especialidades;
+export default Especialidades;

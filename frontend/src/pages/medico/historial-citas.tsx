@@ -4,7 +4,7 @@ import useRole from "@/hooks/useRole";
 import { poppins } from "@/utils/fonts/poppins";
 import React from "react";
 
-const historialCitas = () => {
+const HistorialCitas = () => {
   // Posiblemente mas adelante haya historial citas para el paciente pero para el MVP solo Medico
   const rol = useRole();
   return (
@@ -20,4 +20,4 @@ const historialCitas = () => {
   );
 };
 
-export default historialCitas;
+export default HistorialCitas;

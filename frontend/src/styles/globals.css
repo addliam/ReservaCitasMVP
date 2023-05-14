@@ -29,6 +29,12 @@ h5,
 h6 {
   font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 } */
-
+.bubble {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #6c9cd3 0%,
+    rgba(108, 156, 211, 0.4) 81.68%
+  );
+}
 body {
 }

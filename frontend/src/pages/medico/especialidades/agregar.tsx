@@ -11,7 +11,7 @@ interface EspecialidadSelect {
   nombre: string;
 }
 
-const agregar = () => {
+const Agregar = () => {
   const [especialidadesData, setEspecialidadesData] = useState<
     EspecialidadSelect[]
   >([]);
@@ -148,4 +148,4 @@ const agregar = () => {
   );
 };
 
-export default agregar;
+export default Agregar;

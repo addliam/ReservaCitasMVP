@@ -6,7 +6,7 @@ const checkGoogleAuthToken = require("../middlewares/checkGoogleAuthTokenMiddlew
 const checkPaciente = require("../middlewares/paciente/checkPaciente");
 const authJwt = require("../middlewares/authJwtMiddleware");
 
-router.get("/", pacienteController.getTodosPacientes);
+// router.get("/", pacienteController.getTodosPacientes);
 router.post(
   "/google-auth",
   checkGoogleAuthToken,

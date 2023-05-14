@@ -10,7 +10,7 @@ import EditarMedico from "@/components/editar/EditarMedico";
 // estilos estan importados en app principal
 // import "react-toastify/dist/ReactToastify.css";
 
-const editar = () => {
+const Editar = () => {
   const rol = useRole();
   return (
     <div>
@@ -23,4 +23,4 @@ const editar = () => {
   );
 };
 
-export default editar;
+export default Editar;

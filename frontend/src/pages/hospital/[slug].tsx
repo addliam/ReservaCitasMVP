@@ -5,7 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import axios from "axios";
 import Image from "next/image";
 import MedicoHorarioItem from "@/components/hospital/MedicoHorarioItem";
-import { MedicoEspecialidadSimple } from "@/utils/interfaces/MedicoEspecialidadSimple";
+import { MedicoEspecialidadBasico } from "@/utils/interfaces/MedicoEspecialidadBasico";
 import { EspecialidadSimple } from "@/utils/interfaces/EspecialidadSimple";
 interface EmpresaPerfilPublicoProps {
   empresa: Empresa | null;
@@ -20,7 +20,7 @@ const EmpresaPerfilPublico: NextPage<EmpresaPerfilPublicoProps> = ({
   >([]);
   const [selectedEspecialidadId, setSelectedEspecialidadId] = useState("");
   const [medicoEspecialidadData, setMedicoEspecialidadData] = useState<
-    MedicoEspecialidadSimple[]
+    MedicoEspecialidadBasico[]
   >([]);
   const onChangeSelectHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);

@@ -114,20 +114,24 @@ export const getServerSideProps = ({
 }: GetServerSidePropsContext<ParsedUrlQuery>) => {
   const cookies = new Cookies(req.headers.cookie);
   const jwtToken = cookies.get("jwt");
-  // aca inicializar el valor de jwtDecoded de redux-store
   var decodedToken = {
     id: "",
     rol: "",
   };
-  decodedToken = jwtDecode(jwtToken);
-  if (!jwtToken) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
+  try {
+    decodedToken = jwtDecode(jwtToken);
+  } catch (error) {
+    console.error(error);
   }
+  // if (!jwtToken || !decodedToken.id) {
+  //   return {
+  //     redirect: {
+  //       source: "/perfil",
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: {
       decodedToken: decodedToken,

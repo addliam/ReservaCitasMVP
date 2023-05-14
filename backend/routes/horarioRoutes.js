@@ -3,8 +3,6 @@ const router = express.Router();
 const horarioController = require("../controllers/horarioController");
 
 router.get("/", horarioController.getTodosHorarios);
-// ver horarios disponibles para la especialidad Derma con el doctorid 4
-// router.get("/disponible", horarioController.getHorarioDisponibleConFiltro);
 
 // TODO realizar una ruta que pueda ver los horario de la semana en base a medicoEspecialidadId, el frontend ya lo tiene desde /hospital/[slug] es facil acceso
 // Quiero los horarios en este formato
@@ -14,5 +12,10 @@ router.get("/", horarioController.getTodosHorarios);
 router.get(
   "/medico-especialidad/:id",
   horarioController.getHorarioPorMedicoEspecialidadId
+);
+// /horario/disponible
+router.get(
+  "/medico-especialidad/:id/ocupados",
+  horarioController.getHorariosOcupadosDelMesPorMedEspId
 );
 module.exports = router;

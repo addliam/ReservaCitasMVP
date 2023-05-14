@@ -1,14 +1,13 @@
-export interface MedicoEspecialidadSimple {
-  id: Number;
+export interface MedicoEspecialidadBasico {
+  id: number;
   precio: string;
   medico: {
-    id: Number;
+    id: number;
     nombre: string;
     apellidos: string;
-    empresaId: Number;
   };
   especialidad: {
-    id: Number;
+    id: number;
     nombre: string;
   };
 }

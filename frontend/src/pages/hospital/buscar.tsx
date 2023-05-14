@@ -5,7 +5,7 @@ import axios from "axios";
 import { ItemHospital } from "@/utils/interfaces/ItemHospital";
 import HospitalItem from "@/components/hospital/buscar/HospitalItem";
 
-const buscar = () => {
+const Buscar = () => {
   const [textoBusqueda, setTextoBusqueda] = useState("");
   const [listaEmpresas, setListaEmpresas] = useState<ItemHospital[]>([]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,4 +65,4 @@ const buscar = () => {
   );
 };
 
-export default buscar;
+export default Buscar;
