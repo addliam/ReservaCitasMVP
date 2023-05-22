@@ -9,6 +9,8 @@ const Empresa = require("../models/empresa");
 const googleAuthentication = async (req, res) => {
   const COOKIE_OPTIONS = {
     path: "/",
+    sameSite: "none",
+    secure: "false",
   };
   try {
     const { client_id, credential } = req.body;

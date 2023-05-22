@@ -22,7 +22,6 @@ router.get(
 // /horario/disponible
 router.get(
   "/medico-especialidad/:id/ocupados",
-  checkMedico,
   horarioController.getHorariosOcupadosDelMesPorMedEspId
 );
 module.exports = router;

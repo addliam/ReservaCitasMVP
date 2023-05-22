@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 // const iconv = require("iconv-lite");
 // tuve q crear un backup, borrar y crear una nueva ddbb en UTF8
 
@@ -30,6 +31,7 @@ const authRoutes = require("./routes/authRoutes");
 // });
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.post("/api/v1/logout", (req, res) => {
 //   const COOKIE_OPTIONS = {
@@ -64,3 +66,7 @@ app.use("/api/v1/auth", authRoutes);
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en el puerto ${PORT}.`);
 });
+
+// HTTPS para probar samesite None]
+// mkcert -install && mkcert localhost &&
+// npx local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem
