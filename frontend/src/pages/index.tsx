@@ -1,7 +1,4 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import { error } from "console";
 import NavBar from "@/components/NavBar";
 import Link from "next/link";
 import { poppins } from "@/utils/fonts/poppins";

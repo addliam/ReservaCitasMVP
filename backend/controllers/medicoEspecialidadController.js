@@ -31,6 +31,30 @@ const getTodosMedicoEspecialidad = async (req, res) => {
   }
 };
 
+const getMedicoEspecialidadListById = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const especialidadesLista = await MedicoEspecialidad.findAll({
+      attributes: ["id", "precio"],
+      where: {
+        medicoId: id,
+      },
+      include: {
+        model: Especialidad,
+        as: "especialidad",
+        attributes: ["id", "nombre"],
+      },
+    });
+    return res.status(200).json(especialidadesLista);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getMedicoEspecialidadListById",
+    });
+  }
+};
+
 const getTodosPretty = async (req, res) => {
   try {
     const medicoEspecialidades = await sequelize.query(
@@ -88,4 +112,5 @@ module.exports = {
   getTodosMedicoEspecialidad,
   getTodosPretty,
   getMedicoEspecialidadInfoById,
+  getMedicoEspecialidadListById,
 };

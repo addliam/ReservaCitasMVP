@@ -23,14 +23,11 @@ const Casilla = ({ bloque, dia, mes, ocupado, medEspId }: CasillaProps) => {
   const handleCasillaCliked = () => {
     const hoy = new Date();
     const fechaElegida = moment(
-      `${hoy.getFullYear()}-${mes ? mes - 1 : hoy.getMonth()}-${dia}`,
+      `${hoy.getFullYear()}-${mes ? mes : hoy.getMonth() + 1}-${dia}`,
       "YYYY-MM-DD"
     ).format("YYYY-MM-DD");
-    // console.log(
-    //   `http://localhost:3000/cita?mesp=${medEspId}&fecha=${fechaElegida}&hora=${bloque.horaInicio}`
-    // );
     router.push(
-      `http://localhost:3000/cita?mesp=${medEspId}&fecha=${fechaElegida}&hora=${bloque.horaInicio}`
+      `/cita?mesp=${medEspId}&fecha=${fechaElegida}&hora=${bloque.horaInicio}`
     );
   };
   return (
@@ -234,44 +231,48 @@ const MedicoEspecialidadWithId = ({
                 }
               })}
             </div>
-            <div className="flex flex-row gap-[14px] columnas-parent overflow-x-scroll w-[100%] border-[#F3F3F3] border-l-2 pl-[6px]">
-              {parDiaMesSemana.map((par) => {
-                // horarios puede ser optimizado por un dict
-                const horarioItem = horarios.find(
-                  (v) => v.diaSemana === `${par.diaSemana}`
-                );
-                return (
-                  horarioItem && (
-                    <div
-                      key={`${horarioItem.diaSemana}${par.diaMes}`}
-                      className="columna flex flex-col gap-[.75rem]"
-                    >
-                      <span className="bg-white font-semibold text-[18px] w-[48px] h-[28px] flex flex-row justify-center items-center">
-                        {par.diaMes}
-                      </span>
-                      {horarioItem.horario.map((item: Bloque) => {
-                        return (
-                          <Casilla
-                            dia={Number(par.diaMes)}
-                            key={item.horaInicio.toString()}
-                            bloque={item}
-                            medEspId={medicoEspecialidadId}
-                            mes={now.getMonth() + 1}
-                            ocupado={comprobarSiFechaHoraEstaOcupada(
-                              `${now.getFullYear()}-${(now.getMonth() + 1)
-                                .toString()
-                                .padStart(2, "0")}-${par.diaMes
-                                .toString()
-                                .padStart(2, "0")}`,
-                              item.horaInicio
-                            )}
-                          />
-                        );
-                      })}
-                    </div>
-                  )
-                );
-              })}
+            <div className="rotate-180deg parent overflow-x-scroll ">
+              <div className="rotate-180deg child">
+                <div className="flex flex-row gap-[14px] columnas-parent w-[100%] border-[#F3F3F3] border-l-2 pl-[6px]">
+                  {parDiaMesSemana.map((par) => {
+                    // horarios puede ser optimizado por un dict
+                    const horarioItem = horarios.find(
+                      (v) => v.diaSemana === `${par.diaSemana}`
+                    );
+                    return (
+                      horarioItem && (
+                        <div
+                          key={`${horarioItem.diaSemana}${par.diaMes}`}
+                          className="columna flex flex-col gap-[.75rem]"
+                        >
+                          <span className="bg-white font-semibold text-[18px] w-[48px] h-[28px] flex flex-row justify-center items-center">
+                            {par.diaMes}
+                          </span>
+                          {horarioItem.horario.map((item: Bloque) => {
+                            return (
+                              <Casilla
+                                dia={Number(par.diaMes)}
+                                key={item.horaInicio.toString()}
+                                bloque={item}
+                                medEspId={medicoEspecialidadId}
+                                mes={now.getMonth() + 1}
+                                ocupado={comprobarSiFechaHoraEstaOcupada(
+                                  `${now.getFullYear()}-${(now.getMonth() + 1)
+                                    .toString()
+                                    .padStart(2, "0")}-${par.diaMes
+                                    .toString()
+                                    .padStart(2, "0")}`,
+                                  item.horaInicio
+                                )}
+                              />
+                            );
+                          })}
+                        </div>
+                      )
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>

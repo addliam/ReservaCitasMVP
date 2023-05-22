@@ -5,7 +5,7 @@ export interface Medico {
   email: string;
   aprobacion: boolean;
   createdAt: string;
-  empresa: {
+  empresa?: {
     nombre: string;
   };
 }

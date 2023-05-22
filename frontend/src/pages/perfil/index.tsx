@@ -123,19 +123,18 @@ export const getServerSideProps = ({
   } catch (error) {
     console.error(error);
   }
-  // if (!jwtToken || !decodedToken.id) {
-  //   return {
-  //     redirect: {
-  //       source: "/perfil",
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  if (!jwtToken || !decodedToken.id) {
+    return {
+      redirect: {
+        source: "/perfil",
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       decodedToken: decodedToken,
-      // jwtToken: jwtToken ? jwtToken.toString() : "",
     },
   };
 };

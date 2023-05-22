@@ -9,7 +9,6 @@ const LogoutButton = () => {
   const logoutHandler = async () => {
     const cookies = new Cookies();
     cookies.remove("jwt");
-    // cookie.remove("jwt");
     router.push("/");
     console.log("Eliminando cookies");
   };

@@ -22,6 +22,9 @@ const Cita = sequelize.define(
     hora: {
       type: DataTypes.TIME,
     },
+    precio: {
+      type: DataTypes.DECIMAL(10, 2),
+    },
     estado: {
       type: CitaEstado,
       defaultValue: "pendiente",

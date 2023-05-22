@@ -15,10 +15,10 @@ const LinkComponent = ({
 }: LinkComponentProps) => {
   const router = useRouter();
   const clickedLink = () => {
+    router.push(`${href}`);
     if (toggler) {
       toggler();
     }
-    router.push(`${href}`);
   };
   return (
     <li
@@ -28,7 +28,7 @@ const LinkComponent = ({
     >
       <a
         onClick={clickedLink}
-        className={` py-[6px] px-[4px] font-medium text-[1.125rem] `}
+        className={` py-[6px] px-[4px] font-medium text-[1.125rem] cursor-pointer `}
       >
         {title}
       </a>
@@ -48,7 +48,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
       {showMenu ? (
         <>
           {role === "" ? (
-            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100vw] pt-[1rem] pb-[8rem] min-h-[34rem] z-10">
+            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100%] pt-[1rem] pb-[8rem] min-h-[50rem] z-10">
               <ul className="px-[1.5rem] py-[1.875rem] flex flex-col gap-[.75rem]">
                 <LinkComponent
                   toggler={toggler}
@@ -74,7 +74,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
             <></>
           )}
           {role === "paciente" ? (
-            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100vw] pt-[1rem] pb-[8rem] min-h-[34rem] z-10">
+            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100%] pt-[1rem] pb-[8rem] min-h-[50rem] z-10">
               <ul className="px-[1.5rem] py-[1.875rem] flex flex-col gap-[.75rem]">
                 <LinkComponent
                   toggler={toggler}
@@ -96,7 +96,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
                 />
                 <LinkComponent
                   toggler={toggler}
-                  href="/paciente/mis-citas"
+                  href="/cita/historial"
                   title="Mis citas"
                   active={false}
                 />
@@ -106,7 +106,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
             <></>
           )}
           {role === "medico" ? (
-            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100vw] pt-[1rem] pb-[8rem] min-h-[34rem] z-10">
+            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100%] pt-[1rem] pb-[8rem] min-h-[50rem] z-10">
               <ul className="px-[1.5rem] py-[1.875rem] flex flex-col gap-[.75rem]">
                 <LinkComponent
                   toggler={toggler}
@@ -140,7 +140,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
                 />
                 <LinkComponent
                   toggler={toggler}
-                  href="/medico/horarios"
+                  href="/medico/horario"
                   title="Horarios"
                   active={false}
                 />
@@ -156,7 +156,7 @@ const NavBarMenu = ({ showMenu, role, toggler }: NavBarMenuProps) => {
             <></>
           )}
           {role === "empresa" ? (
-            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100vw] pt-[1rem] pb-[8rem] min-h-[34rem] z-10">
+            <div className="overlap absolute top-[64px] bg-[#3498DB] w-[100%] pt-[1rem] pb-[8rem] min-h-[50rem] z-10">
               <ul className="px-[1.5rem] py-[1.875rem] flex flex-col gap-[.75rem]">
                 <LinkComponent
                   toggler={toggler}

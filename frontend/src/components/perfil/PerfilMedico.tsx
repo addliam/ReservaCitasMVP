@@ -43,7 +43,7 @@ const PerfilMedico = ({ data }: { data: Medico }) => {
           imagenAlt={"card id"}
           imagenSrc="/src/icons/Company.svg"
           item="Empresa"
-          valor={data.empresa.nombre || "- - - - - - -"}
+          valor={data.empresa ? data.empresa.nombre : "- - - - - - -"}
         />
         <div className="h-[8rem]" />
         <div className="separator bg-[#F3F3F3] w-full h-[3px] rounded-sm" />

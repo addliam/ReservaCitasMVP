@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import { MedicoEspecialidadSimple } from "@/utils/interfaces/MedicoEspecialidadSimple";
+import { MedicoEspecialidadBasico } from "@/utils/interfaces/MedicoEspecialidadBasico";
 import { useRouter } from "next/router";
 interface MedicoHorarioItemProps {
-  medicoEspecialidad: MedicoEspecialidadSimple;
+  medicoEspecialidad: MedicoEspecialidadBasico;
 }
 const MedicoHorarioItem = ({ medicoEspecialidad }: MedicoHorarioItemProps) => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const MedicoHorarioItem = ({ medicoEspecialidad }: MedicoHorarioItemProps) => {
     console.log(
       `Medico: ${medicoEspecialidad.medico.id} - MedicoEspecialidad: ${medicoEspecialidad.id}`
     );
-    router.push("http://localhost:3000/horario/medico-especialidad/10");
+    router.push("/horario/medico-especialidad/10");
   };
   return (
     <div className="item flex flex-row gap-[1rem] justify-between items-center py-[.75rem]">
@@ -34,7 +34,7 @@ const MedicoHorarioItem = ({ medicoEspecialidad }: MedicoHorarioItemProps) => {
       </div>
       <div
         onClick={clickVerHorario}
-        className="px-[5px] py-[5px] border-[1px] border-[#bebebe] rounded-sm "
+        className="px-[5px] py-[5px] border-[1px] border-[#bebebe] rounded-sm cursor-pointer"
       >
         <Image
           src={"/src/icons/Schedule.svg"}

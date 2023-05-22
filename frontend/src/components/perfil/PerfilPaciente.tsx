@@ -19,10 +19,10 @@ const PerfilPaciente = ({ data }: { data: Paciente }) => {
       >
         Mi perfil
       </h1>
-      <div className="flex flex-row items-center gap-[2.5rem] pt-[.5rem]">
-        <div className="pic w-[7rem] h-[7rem] rounded-[50%] bg-orange-500"></div>
+      <div className="flex flex-row items-center gap-[5%] justify-center pt-[.5rem]">
+        <div className="pic w-[6rem] h-[6rem] min-[364px]:w-[7rem] min-[364px]:h-[7rem] rounded-[50%] bg-orange-500 flex-none  " />
         <div className="">
-          <h5 className="max-w-[11.625rem] text-jet-black font-bold text-[1.25rem]">
+          <h5 className="max-w-[94%] text-jet-black font-bold text-[1.25rem]">
             {`${data.nombre} ${data.apellidos}`}
           </h5>
           <p className="text-[1rem] text-[#636363]">

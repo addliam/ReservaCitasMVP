@@ -7,6 +7,7 @@ import { poppins } from "@/utils/fonts/poppins";
 import useJwtToken from "@/hooks/useJwtToken";
 import { Paciente } from "@/utils/interfaces/Paciente";
 import { MedicoEspecialidadBasico } from "@/utils/interfaces/MedicoEspecialidadBasico";
+import { useRouter } from "next/router";
 
 interface PageCitaProps {
   mesp: string;
@@ -29,7 +30,32 @@ const IndexCita: NextPage<PageCitaProps> = ({ mesp, fecha, hora }) => {
     useState<Partial<MedicoEspecialidadCita>>();
   const [miPerfilData, setMiPerfilData] = useState<Partial<Paciente>>();
   const jwt = useJwtToken();
-  const handleClickConfirmarCita = () => {};
+  const router = useRouter();
+  const handleClickConfirmarCita = () => {
+    let config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    let data = {
+      medicoEspecialidadId: Number(mesp),
+      fecha: moment(fecha, "YYYY-MM-DD").format("YYYY-MM-DD"),
+      hora: moment(hora, "HH:mm").format("HH:mm"),
+    };
+    // console.log({ data });
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/cita/agendar`,
+        data,
+        config
+      )
+      .then((res) => {
+        if (res.status === 201) {
+          router.push("/cita/exito");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
   useEffect(() => {
     axios
       .get(

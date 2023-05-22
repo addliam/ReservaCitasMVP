@@ -14,7 +14,7 @@ const HospitalItem = ({ hospital }: HospitalProps) => {
   return (
     <div
       onClick={() => clickHospital()}
-      className="hospital-item flex flex-row gap-[1rem] py-[.625rem] items-center justify-start"
+      className="hospital-item flex flex-row gap-[1rem] py-[.625rem] items-center justify-start cursor-pointer"
     >
       <div className="w-[4rem] h-[4rem] rounded-[50%] bg-[#8960FF]" />
       <div>

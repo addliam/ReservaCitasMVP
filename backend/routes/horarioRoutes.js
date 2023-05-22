@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const horarioController = require("../controllers/horarioController");
+const checkMedico = require("../middlewares/medico/checkMedico");
+const authJwt = require("../middlewares/authJwtMiddleware");
 
 router.get("/", horarioController.getTodosHorarios);
 
@@ -13,9 +15,14 @@ router.get(
   "/medico-especialidad/:id",
   horarioController.getHorarioPorMedicoEspecialidadId
 );
+router.get(
+  "/medico/especialidad/:id",
+  horarioController.getHorarioDelMedicoPorEspecialidadId
+);
 // /horario/disponible
 router.get(
   "/medico-especialidad/:id/ocupados",
+  checkMedico,
   horarioController.getHorariosOcupadosDelMesPorMedEspId
 );
 module.exports = router;

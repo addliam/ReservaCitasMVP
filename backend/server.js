@@ -62,7 +62,5 @@ app.use("/api/v1/auth", authRoutes);
 
 // Iniciamos el servidor
 app.listen(PORT, () => {
-  console.log(
-    `Servidor iniciado en el puerto ${PORT}. http://localhost:${PORT}/`
-  );
+  console.log(`Servidor iniciado en el puerto ${PORT}.`);
 });

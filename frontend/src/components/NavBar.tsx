@@ -11,10 +11,10 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="relative bg-blue w-full h-[64px] flex justify-end items-center flex-col">
+    <nav className="relative z-50 bg-blue w-full h-[64px] flex justify-end items-center flex-col">
       <div
         onClick={togglerHandler}
-        className="absolute px-[4px] py-[4px] top-[10px] right-[20px] z-20"
+        className="cursor-pointer absolute px-[4px] py-[4px] top-[10px] right-[20px] z-20"
       >
         <Image
           src="/src/icons/MenuRounded.svg"

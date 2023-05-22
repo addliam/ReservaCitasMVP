@@ -7,6 +7,8 @@ const {
   generarRangoHorasSegunHorario,
 } = require("../utils/generarRangoHorasSegunHorario");
 const moment = require("moment");
+const Medico = require("../models/medico");
+const Especialidad = require("../models/especialidad");
 const getTodosHorarios = async (req, res) => {
   try {
     const horario = await Horario.findAll();
@@ -37,6 +39,41 @@ const getHorarioPorMedicoEspecialidadId = async (req, res) => {
     return res.status(500).json({
       message: "Error en el servidor",
       detail: "getHorarioPorMedicoEspecialidadId",
+    });
+  }
+};
+
+const getHorarioDelMedicoPorEspecialidadId = async (req, res) => {
+  try {
+    const medId = req.user.id;
+    const especialidadId = req.params.id;
+    // const medicoEspecialidadId = ;
+    const result = await Horario.findAll({
+      attributes: ["id", "diaSemana", "horaInicio", "horaFin"],
+      where: {
+        "$medicoEspecialidadId.medico.id$": medId,
+        "$medicoEspecialidadId.especialidad.id$": especialidadId,
+      },
+      include: [
+        {
+          model: Medico,
+          as: "medico",
+          attributes: [],
+        },
+        {
+          model: Especialidad,
+          as: "especialidad",
+          attributes: [],
+        },
+      ],
+    });
+    const formattedResult = generarRangoHorasSegunHorario(result);
+    return res.status(200).json(formattedResult);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error en el servidor",
+      detail: "getHorarioDelMedicoPorEspecialidadId",
     });
   }
 };
@@ -78,4 +115,5 @@ module.exports = {
   getTodosHorarios,
   getHorarioPorMedicoEspecialidadId,
   getHorariosOcupadosDelMesPorMedEspId,
+  getHorarioDelMedicoPorEspecialidadId,
 };

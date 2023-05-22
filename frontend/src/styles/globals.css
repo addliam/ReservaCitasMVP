@@ -36,5 +36,8 @@ h6 {
     rgba(108, 156, 211, 0.4) 81.68%
   );
 }
+.rotate-180deg {
+  transform: rotateX(180deg);
+}
 body {
 }
