@@ -2,7 +2,8 @@ const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = new Sequelize(
   // TODO: almacenar string en environment variable
-  process.env.POSTGRES_CONNECTION_STRING,
+  process.env.POSTGRES_CONNECTION_STRING ||
+    "postgres://postgres:TryHackM3@localhost:5432/reservacita",
   {
     dialect: "postgres",
     dialectOptions: {

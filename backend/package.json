@@ -25,5 +25,8 @@
     "sequelize": "^6.31.0",
     "sequelize-cli": "^6.6.0",
     "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.6"
   }
 }
