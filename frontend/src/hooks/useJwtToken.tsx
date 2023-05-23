@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 
 const useJwtToken = () => {
   const [jwtToken, setJwtToken] = useState("");
   useEffect(() => {
-    const jwt = new Cookies().get("jwt");
-    setJwtToken(jwt);
+    // asegurarnos que estamos en el lado del cl teniendo localStorage
+    if (typeof window !== undefined) {
+      const data = localStorage.getItem("jwt") || "null";
+      setJwtToken(data);
+    }
     return () => {};
   }, []);
 

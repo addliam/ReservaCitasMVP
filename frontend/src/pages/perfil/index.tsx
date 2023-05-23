@@ -21,17 +21,30 @@ import { Medico } from "@/utils/interfaces/Medico";
 // import { RootState } from "@/store";
 // import { update } from "@/store/reducers/jwtDecodedSlice";
 
-interface PerfilProps {
-  decodedToken: DecodedTokenProps;
-}
+// interface PerfilProps {
+//   decodedToken: DecodedTokenProps;
+// }
 interface DecodedTokenProps {
   id: string;
   rol: string;
 }
 
-const Perfil = ({ decodedToken }: PerfilProps) => {
-  console.log("[-] Render perfil");
-  const jwtToken = new Cookies().get("jwt");
+const Perfil = ({}) => {
+  const [decodedToken, setDecodedToken] = useState<DecodedTokenProps>({
+    id: "",
+    rol: "",
+  });
+  const token = localStorage.getItem("jwt") || "";
+  useEffect(() => {
+    try {
+      const decoded: DecodedTokenProps = jwtDecode(token);
+      setDecodedToken(decoded);
+    } catch (error) {
+      setDecodedToken({ id: "", rol: "" });
+      console.error(error);
+    }
+    return () => {};
+  }, [token]);
   const [pacienteInfo, setPacienteInfo] = useState<Paciente | null>(null);
   const [medicoInfo, setMedicoInfo] = useState<Medico | null>(null);
   const router = useRouter();
@@ -39,7 +52,7 @@ const Perfil = ({ decodedToken }: PerfilProps) => {
     const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || "";
     const config: AxiosRequestConfig = {
       headers: {
-        Authorization: `Bearer ${jwtToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
     if (decodedToken.rol !== "") {
@@ -67,7 +80,6 @@ const Perfil = ({ decodedToken }: PerfilProps) => {
   }, [decodedToken]);
 
   useEffect(() => {
-    console.log("Running useEffect");
     if (typeof window !== undefined && pacienteInfo) {
       if (
         !pacienteInfo.dni ||
@@ -112,30 +124,8 @@ export const getServerSideProps = ({
   req,
   res,
 }: GetServerSidePropsContext<ParsedUrlQuery>) => {
-  const cookies = new Cookies(req.headers.cookie);
-  const jwtToken = cookies.get("jwt");
-  var decodedToken = {
-    id: "",
-    rol: "",
-  };
-  try {
-    decodedToken = jwtDecode(jwtToken);
-  } catch (error) {
-    console.error(error);
-  }
-  if (!jwtToken || !decodedToken.id) {
-    return {
-      redirect: {
-        source: "/perfil",
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
   return {
-    props: {
-      decodedToken: decodedToken,
-    },
+    props: {},
   };
 };
 

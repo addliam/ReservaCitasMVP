@@ -6,7 +6,6 @@ import { Paciente } from "@/utils/interfaces/Paciente";
 import LogoutButton from "../LogoutButton";
 import { useRouter } from "next/router";
 const PerfilPaciente = ({ data }: { data: Paciente }) => {
-  console.log("[*] Render PerfilPaciente");
   const router = useRouter();
   const editarPerfilHandler = () => {
     router.push("/perfil/editar");

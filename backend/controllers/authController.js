@@ -21,16 +21,16 @@ const googleAuthentication = async (req, res) => {
 
     if (!rol) {
       // console.log("Falta rol en la consulta");
-      return res.redirect("${process.env.CLIENT_URL}/error");
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
     }
     const roles = ["paciente", "empresa", "medico"];
     if (!roles.includes(rol)) {
       // console.log("Rol desconocido. Intenta de nuevo");
-      return res.redirect("${process.env.CLIENT_URL}/error");
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
     }
     if (!credential) {
       // console.log("Falta credential en la consulta");
-      return res.redirect("${process.env.CLIENT_URL}/error");
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
     }
     const GOOGLE_ID = process.env.GOOGLE_AUTH_CLIENT_ID;
     const client = new OAuth2Client(GOOGLE_ID);
@@ -61,7 +61,7 @@ const googleAuthentication = async (req, res) => {
 
         const token = jwt.sign(payload, secret, options);
         res.cookie("jwt", token, COOKIE_OPTIONS);
-        return res.redirect(`${process.env.CLIENT_URL}/hospital/buscar`);
+        return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
         // return res.status(409).json({
         //   message: "El email del usuario ya se encuentra registrado",
         //   token: token,
@@ -87,7 +87,7 @@ const googleAuthentication = async (req, res) => {
       const options = { expiresIn: "23h" };
       const tokenNuevoPaciente = jwt.sign(payload, secret, options);
       res.cookie("jwt", tokenNuevoPaciente, COOKIE_OPTIONS);
-      return res.redirect(`${process.env.CLIENT_URL}/perfil`);
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
       // return res.status(201).json({
       //   message: "Registro realizado con exito",
       //   token: tokenNuevoPaciente,
@@ -109,7 +109,7 @@ const googleAuthentication = async (req, res) => {
         const options = { expiresIn: "23h" };
         const token = jwt.sign(payload, secret, options);
         res.cookie("jwt", token, COOKIE_OPTIONS);
-        return res.redirect(`${process.env.CLIENT_URL}/perfil`);
+        return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
       }
       // si el medico es nuevo, lo registramos
       const nuevoMedico = await Medico.create({
@@ -125,7 +125,7 @@ const googleAuthentication = async (req, res) => {
       const options = { expiresIn: "23h" };
       const tokenNuevoMedico = jwt.sign(payload, secret, options);
       res.cookie("jwt", tokenNuevoMedico, COOKIE_OPTIONS);
-      return res.redirect(`${process.env.CLIENT_URL}/perfil`);
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
       // [*] Si el usuario es Empresa
     } else if (rol === "empresa") {
       const existeEmpresa = await Empresa.findOne({
@@ -142,7 +142,7 @@ const googleAuthentication = async (req, res) => {
         const options = { expiresIn: "23h" };
         const token = jwt.sign(payload, secret, options);
         res.cookie("jwt", token, COOKIE_OPTIONS);
-        return res.redirect(`${process.env.CLIENT_URL}/perfil`);
+        return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
       }
       // si no esta registrado, empezamos el registro
       // TODO: quiza permitir solo quienes tengan dominio
@@ -162,11 +162,11 @@ const googleAuthentication = async (req, res) => {
       const options = { expiresIn: "23h" };
       const tokenNuevaEmpresa = jwt.sign(payload, secret, options);
       res.cookie("jwt", tokenNuevaEmpresa, COOKIE_OPTIONS);
-      return res.redirect(`${process.env.CLIENT_URL}/perfil`);
+      return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
     }
   } catch (error) {
     console.error(error);
-    return res.redirect("${process.env.CLIENT_URL}/error");
+    return res.redirect(`${process.env.CLIENT_URL}/auth?code=${token}`);
   }
 };
 // Podemos mejorar la eficiencia cambiando esta unica entrada por las entradas dentro de cada ruta /rol

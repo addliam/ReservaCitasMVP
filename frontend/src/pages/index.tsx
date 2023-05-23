@@ -45,6 +45,7 @@ export default function Home() {
             alt="vector grafico de doctor usando bata blanca"
             height={0}
             width={0}
+            priority={true}
             className="w-[320px] h-[273px] mx-auto "
           ></Image>
         </div>
