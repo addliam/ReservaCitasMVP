@@ -10,7 +10,7 @@ const googleAuthentication = async (req, res) => {
   const COOKIE_OPTIONS = {
     path: "/",
     sameSite: "none",
-    secure: "false",
+    secure: process.env.NODE_ENV == "production" ? "true" : "false",
   };
   try {
     const { client_id, credential } = req.body;
